@@ -62,6 +62,11 @@ namespace KyGYS.Data
                         whr += " and PurchNo=@" + (idx++).ToString();
                         objs.Add(list[0].ToString());
                     }
+                    if (!string.IsNullOrEmpty(list[1]))
+                    {
+                        whr += "  and PurchNo in (select PurchNo from T_ERP_SuppPurchitem where ReceiverName = @" + (idx++).ToString() + ")";
+                        objs.Add(list[1].ToString());
+                    }
                 }
                 using (var db = new Database(SQLCONN.Conn))
                 {

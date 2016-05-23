@@ -18,13 +18,13 @@
 </head>
 <body>
     <form runat="server">
-        <div id="p" class="easyui-panel" style="width: 100%; height: 40px; padding: 6px;">
+        <div id="p" class="easyui-panel" style="width: 99%; height: 40px; padding: 6px;">
             <asp:Button runat="server" CssClass="easyui-linkbutton" ID="btnRef" Text="查  询" OnClick="btnRef_Click" Style="width: 80px; height: 28px;"></asp:Button>
-<%--            买家：<asp:TextBox runat="server" ID="txtBuyerNick"></asp:TextBox>--%>
+            <%--            买家：<asp:TextBox runat="server" ID="txtBuyerNick"></asp:TextBox>--%>
             &nbsp;
             <%--            订单来源:
             <asp:TextBox runat="server" ID="txtOrderFrom"></asp:TextBox>&nbsp;--%>
-<%--                                    店铺:
+            <%--                                    店铺:
             <asp:TextBox runat="server" ID="txtSellerNick"></asp:TextBox>&nbsp;--%>
              收货人:
             <asp:TextBox runat="server" ID="txtReceiverName"></asp:TextBox>&nbsp;
@@ -37,7 +37,7 @@
         <input type="hidden" id="txtBatchId" />
         <div style="margin: 6px 0;"></div>
 
-        <table title="" class="easyui-datagrid" id="tt" rownumbers="true" pagination="true" style="width: 100%; height: 309px"
+        <table title="" class="easyui-datagrid" id="tt" rownumbers="true" pagination="true" style="width: 99%; height: 320px"
             data-options="singleSelect:true,collapsible:true,url:'/data/getSendList.aspx',onSelect:SelectRow,toolbar:toolbar,method:'get',remoteSort:false,multiSort:true,pageSize:1,pageList:[10,20,50,100,200]">
             <thead>
                 <tr>
@@ -57,11 +57,11 @@
         <%--        <input type="checkbox" hidden checked onchange="$('#tt').datagrid({selectOnCheck:$(this).is(':checked')})" />
         <input type="checkbox" hidden checked onchange="$('#tt').datagrid({checkOnSelect:$(this).is(':checked')})" />--%>
 
-        <table title="" class="easyui-datagrid" id="orderlist" rownumbers="true" style="width: 100%; height: 150px"
+        <table title="" class="easyui-datagrid" id="orderlist" rownumbers="true" style="width: 99%; height: 150px"
             data-options="singleSelect:true,collapsible:true,remoteSort:false,multiSort:true">
             <thead>
                 <tr>
-<%--                    <th data-options="field:'ItemName',width:200,sortable:true" title="admin">商品名称</th>
+                    <%--                    <th data-options="field:'ItemName',width:200,sortable:true" title="admin">商品名称</th>
                     <th data-options="field:'SkuProperties',width:190,sortable:true">规格名称</th>--%>
                     <th data-options="field:'OuterIid',width:200,align:'left',sortable:true">商品编码</th>
                     <th data-options="field:'OuterSkuId',width:200,align:'left',sortable:true">规格编码</th>
@@ -70,6 +70,7 @@
                     <th data-options="field:'BusVolume',width:80,align:'left',sortable:true">体积</th>
                     <th data-options="field:'Size',width:80,align:'left',sortable:true">尺寸</th>
                     <th data-options="field:'Color',width:120,align:'left',sortable:true">颜色</th>
+                    <th data-options="field:'Remark',width:120,align:'left',sortable:true">备注</th>
                 </tr>
             </thead>
         </table>
@@ -158,7 +159,9 @@
                        formatter: function (value, row, index) {
                            if (typeof (value) != "undefined") {
                                value = value.replace(/\T/g, ' ');
-                               value = value.substring(0, value.lastIndexOf('.'));
+                               if (value.lastIndexOf('.') > 0) {
+                                   value = value.substring(0, value.lastIndexOf('.'));
+                               }
                            }
                            //  var unixTimestamp = new Date(value).Format("yyyy-MM-dd hh:mm:ss");
                            var unixTimestamp = value;
@@ -193,6 +196,7 @@
                 //},
                 resizable: false
             });
+
         }
         //关闭登录窗口
         function close() {
@@ -290,7 +294,8 @@
                                       { field: 'PackageCount', title: '包件数', width: '40', sortable: true },
                                       { field: 'BusVolume', title: '体积', width: '60', sortable: true, align: 'left' },
                                       { field: 'Size', title: '尺寸', width: '70', sortable: true, align: 'left' },
-                                      { field: 'Color', title: '颜色', width: '110', sortable: true, align: 'left' }
+                                      { field: 'Color', title: '颜色', width: '110', sortable: true, align: 'left' },
+                                { field: 'Remark', title: '备注', width: '70', sortable: true, align: 'left' }
                 ]],
             });
             $('#orderlist').datagrid({

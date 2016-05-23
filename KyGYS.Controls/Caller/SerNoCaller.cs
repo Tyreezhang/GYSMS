@@ -18,6 +18,18 @@ namespace KyGYS.Controls.Caller
         }
 
 
+        //CtlV_ERP_GetImgController
+        protected static EFCaller<UltraDbEntity.V_ERP_GetImg> _Calr_V_ERP_GetImg = null;
+        public static EFCaller<UltraDbEntity.V_ERP_GetImg> Calr_V_ERP_GetImg
+        {
+            get
+            {
+                return
+                    _Calr_V_ERP_GetImg = _Calr_V_ERP_GetImg ??
+                   new EFCaller<UltraDbEntity.V_ERP_GetImg>(new CtlV_ERP_GetImgController());
+            }
+        }
+
         //CtlV_ERP_PurchItemGetController
         protected static EFCaller<UltraDbEntity.V_ERP_PurchItemGet> _Calr_V_ERP_PurchItemGet = null;
         public static EFCaller<UltraDbEntity.V_ERP_PurchItemGet> Calr_V_ERP_PurchItemGet

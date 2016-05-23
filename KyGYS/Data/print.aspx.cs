@@ -59,11 +59,11 @@ namespace KyGYS.Data
             sb.Append("<div style=\"margin-top: 8px; margin-left: 320px; width: 767px;\"><span style=\"font-family: '新宋体'; font-size: 22px; font-weight: bold;\">发 货 单</span></div>");
             sb.Append(@"<style type='text/css'>.itemlist td {border: solid #000 1px;} .itemlist {width: 767px; margin-left: 2px; margin-top: 5px; font-size: 12px; border-collapse: collapse; border: none;}  
                     .list {width: 767px; margin-left: 2px; margin-top: 5px; font-size: 12px; border-collapse: collapse; border: none;} .tdFirst {width: 65px; height: 17px; line-height: 17px; text-align: left; font-family: '微软雅黑'; font-size: 13px;} 
-                    .tdSecond {width: 400px; height: 17px; line-height: 17px; text-align: left; vertical-align: middle; padding-left: 1px; font-family: '微软雅黑'; font-size: 13px;} 
-                    .tdThree {width: 65px; height: 17px; line-height: 17px; text-align: left; vertical-align: middle; padding-left: 1px; font-family: '微软雅黑'; font-size: 13px;} 
-                    .tdFour {height: 17px; line-height: 17px; text-align: left; vertical-align: middle; padding-left: 1px; font-family: '微软雅黑'; font-size: 13px;} 
-                    .tdFive {height: 15px; line-height: 15px; text-align: left; vertical-align: middle;  font-family: '微软雅黑'; font-size: 13px;} 
-                    .tdSix {height: 32px; line-height: 32px; text-align: center; vertical-align: middle; padding-left: 1px; font-family: '微软雅黑'; font-size: 14px;}</style>");
+                    .tdSecond {width: 400px; height: 17px;text-align: left; vertical-align: middle; padding-left: 1px; font-family: '微软雅黑'; font-size: 13px;} 
+                    .tdThree {width: 65px; height: 17px;text-align: left; vertical-align: middle; padding-left: 1px; font-family: '微软雅黑'; font-size: 13px;} 
+                    .tdFour {height: 17px; text-align: left; vertical-align: middle; padding-left: 1px; font-family: '微软雅黑'; font-size: 13px;} 
+                    .tdFive {height: 15px;text-align: left; vertical-align: middle;  font-family: '微软雅黑'; font-size: 13px;} 
+                    .tdSix {height: 24px; text-align: center; vertical-align: middle; padding-left: 1px; font-family: '微软雅黑'; font-size: 14px;}</style>");
             sb.Append("<table class=\"list\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">");
             sb.Append("<tr><td class=\"tdFirst\">客户名称 </td><td class=\"tdSecond\" colspan=\"3\">" + batchlist.ReceiverName + "</td><td class=\"tdThree\">公司地址</td><td class=\"tdFour\">广东省佛山市顺德区龙江镇高窖工业区</td></tr>");
             sb.Append("<tr><td class=\"tdFirst\">客户电话 </td><td class=\"tdSecond\" colspan=\"3\">" + batchlist.ReceiverMobile + "</td><td class=\"tdThree\">联系电话</td><td class=\"tdFour\">0757-268856523</td></tr>");
@@ -73,11 +73,11 @@ namespace KyGYS.Data
             sb.Append("<tr><td class=\"tdFive\" style=\"width: 65px;\">订单日期 </td><td class=\"tdFive\" style=\"width: 155px; padding-left: 1px;\">" + batchlist.PayTime + "</td><td class=\"tdFive\" style=\"width: 65px; padding-left: 1px; \">出货日期</td><td class=\"tdFive\" style=\"width: 155px; padding-left: 1px; \"><b>" + batchlist.ProDelTime.Value.ToString("yyyy-MM-dd") + "</b></td><td class=\"tdFive\" style=\"width: 65px; height: 15px;  padding-left: 1px;\">包件总数</td><td class=\"tdFour\">" + batchlist.PackageCount + "</td></tr>");
             sb.Append("</table>");
             sb.Append("<table class=\"itemlist\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">");
-            sb.Append("<tr><td class=\"tdSix\" style=\"width: 65px; text-align: left;\">产品型号</td><td class=\"tdSix\">产品图片</td><td class=\"tdSix\" style=\"width:305px;\" colspan=\"2\">规格</td><td class=\"tdSix\"  style=\"width: 50px;\">数量</td><td class=\"tdSix\" style=\"width: 80px;\">包装件数</td><td class=\"tdSix\" style=\"width: 60px;\" >包装体积</td><td class=\"tdSix\" style=\"width: 170px;\">备注</td></tr>");
+            sb.Append("<tr><td class=\"tdSix\" style=\"width: 200px; text-align: left;\">产品型号</td><td class=\"tdSix\" style=\"width:100px;\">产品图片</td><td class=\"tdSix\" style=\"width:420px;\" colspan=\"2\">规格</td><td class=\"tdSix\"  style=\"width: 50px;\">数量</td><td class=\"tdSix\" style=\"width: 100px;\">包装件数</td><td class=\"tdSix\" style=\"width: 100px;\" >包装体积</td><td class=\"tdSix\" style=\"width: 200px;height:30px;\">备注</td></tr>");
             //<td class=\"tdSix\" style=\"width: 100px;\">定制规格颜色</td>
             foreach (var item in itemlist)
             {
-                sb.Append("<tr><td class=\"tdSix\" style=\"width: 65px; text-align: left;\">" + item.OuterIid + "</td><td class=\"tdSix\"><img src='" + CommonUtil.GetItemImgFileName("http://msgys.keyierp.com:30000/Item_Images/" + "MSTest/" + item.OuterIid + item.OuterSkuId + ".jpg") + "' width='80' height='100' onerror=\"this.style.display='none'\" /></td><td class=\"tdSix\" style=\"width: 305px; text-align: left;\" colspan=\"2\">" + item.OuterSkuId + "</td><td class=\"tdSix\"  style=\"width: 50px;\">" + item.Num + "</td><td class=\"tdSix\"  style=\"width: 80px;\">" + item.PackageCount + "</td><td class=\"tdSix\"  style=\"width: 60px;\">" + item.Volume + "</td><td class=\"tdSix\" style=\"width: 170px;\">" + item.Remark + "</td></tr>");
+                sb.Append("<tr><td class=\"tdSix\" style=\"width: 200px;height:80px; text-align: left;\">" + item.OuterIid + "</td><td  style=\"width:80px;height:80px;margin:0;\"><img src='" + "http://101.251.96.120:30000/Item_Images/MSTest/" + CommonUtil.GetItemImgFileName(item.OuterIid + item.OuterSkuId + ".jpg") + "' style=\"width:100px;height:80px\" onerror=\"this.style.display='none'\" /></td><td class=\"tdSix\" style=\"width: 420px;height:80px; text-align: left;\" colspan=\"2\">" + item.OuterSkuId + "</td><td class=\"tdSix\"  style=\"width: 50px;height:80px;\">" + item.Num + "</td><td class=\"tdSix\"  style=\"width: 100px;height:80px;\">" + item.PackageCount + "</td><td class=\"tdSix\"  style=\"width: 100px;height:80px;\">" + item.Volume + "</td><td class=\"tdSix\" style=\"width: 200px;height:80px;\">" + item.Remark + "</td></tr>");
             }
             sb.Append("<tr><td class=\"tdSix\" style=\"width: 65px; text-align: left;\">发票</td><td class=\"tdSix\" style=\"text-align: left;\" colspan=\"7\">" + batchlist.Title + "</td></tr>");
             sb.Append("<tr><td class=\"tdSix\" style=\"width: 65px; text-align: left;\">客户留言</td><td class=\"tdSix\" style=\"text-align: left;\" colspan=\"7\">" + batchlist.BuyerMemo + "</td></tr>");
@@ -127,6 +127,7 @@ namespace KyGYS.Data
             var pth = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "order.html");
             var txtorder = File.ReadAllText(pth, Encoding.UTF8);
             StringBuilder sbsub = new StringBuilder(100);
+            itemlist = itemlist.Where(j => j.RealNum != null && j.RealNum > 0).ToList();
             foreach (var item in itemlist)
             {
                 string isCardImg = string.Empty;

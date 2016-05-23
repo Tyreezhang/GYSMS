@@ -24,18 +24,21 @@
             <asp:Button runat="server" CssClass="easyui-linkbutton" ID="btnRef" Text="查  询" OnClick="btnRef_Click" Style="width: 80px; height: 28px;"></asp:Button>
             采购单号:
             <asp:TextBox runat="server" ID="txtPurchNo"></asp:TextBox>&nbsp;
+            收货人:
+            <asp:TextBox runat="server" ID="txtReceiverName"></asp:TextBox>&nbsp;
         </div>
         <input type="hidden" id="txtBatchId" />
         <input type="hidden" id="tabindex" runat="server" />
         <div style="margin: 2px 0;"></div>
-        <div id="content" class="easyui-tabs" style="width: 100%;" >
-            <div title="未接单" style="width: 99%;" >
+        <div id="content" class="easyui-tabs" style="width: 99%;">
+            <div title="未接单" style="width: 99%;">
                 <table title="" id="tt" rownumbers="true" pagination="true" style="width: 100%; height: 320px"
                     data-options="singleSelect:true,collapsible:true,url:'/data/getUnauditPurch.aspx',onSelect:SelectRow,toolbar:Untoolbar,method:'get',remoteSort:false,multiSort:true,pageSize:1,pageList:[10,50,100,500,1000]">
                     <thead>
                         <tr>
                             <th data-options="field:'PurchNo',width:143, align: 'center', sortable:true">采购单号</th>
                             <th data-options="field:'CreateDate',width:143,align: 'center',sortable:true" formatter="datestr">下单时间</th>
+                            <th data-options="field:'PaidAmount',width:150,align: 'center',sortable:true" >已打款金额</th>
                         </tr>
                     </thead>
                 </table>
@@ -48,6 +51,7 @@
                             <th data-options="field:'PurchNo',width:143, align: 'center', sortable:true">采购单号</th>
                             <th data-options="field:'CreateDate',width:143,align: 'center',sortable:true" formatter="datestr">下单时间</th>
                             <th data-options="field:'Reserved1',width:150,align: 'center',sortable:true" formatter="formatprint">是否打印</th>
+                            <th data-options="field:'PaidAmount',width:150,align: 'center',sortable:true" >已打款金额</th>
                         </tr>
                     </thead>
                 </table>
@@ -269,9 +273,10 @@
                                         UnAudit();
                                         break;
                                 }
-                            }});
-                        return false;
-                    }
+                            }
+                        });
+                            return false;
+                        }
                 });
             })
 
@@ -308,149 +313,65 @@
                 }
             });
         });
-        //设置登录窗口
-        function openwid() {
-            $("#import_panel").panel('open');
-            $("#import_panel").show();
-            $('#logis').window({
-                title: '填写作废原因',
-                width: 350,
-                modal: true,
-                shadow: true,
-                closed: true,
-                height: 250,
-                onBeforeClose: function () {
-                    $('#txtInvalidPurchNo').val("");
-                    $('#txtInvalidRemark').val("");
-                },
-                resizable: false
-            });
-        }
-        //关闭登录窗口
-        function close() {
-            $('#logis').window('close');
-        }
-        // 对Date的扩展，将 Date 转化为指定格式的String
-        // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符， 
-        // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) 
-        // 例子： 
-        // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423 
-        // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18 
-        Date.prototype.Format = function (fmt) { //author: meizz 
-            var o = {
-                "M+": this.getMonth() + 1, //月份 
-                "d+": this.getDate(), //日 
-                "h+": this.getHours(), //小时 
-                "m+": this.getMinutes(), //分 
-                "s+": this.getSeconds(), //秒 
-                "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
-                "S": this.getMilliseconds() //毫秒 
-            };
-            if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-            for (var k in o)
-                if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-            return fmt;
-        }
-        //弹出信息窗口 title:标题 msgString:提示信息 msgType:信息类型 [error,info,question,warning]
-        function msgShow(title, msgString, msgType) {
-            $.messager.alert(title, msgString, msgType);
-        }
-        $("div[class='tabs-panels']").attr('overflow', 'hidden');
-        var toolbar = [
-            {
-                text: '打印预览',
-                iconCls: 'icon-print',
-                handler: function () {
-                    var select = $('#audittable').datagrid('getSelected');
-                    if (!select) {
-                        return false;
-                    }
-                    $.ajax({
-                        url: "/data/print.aspx/PrintPurch",
-                        type: "POST",
-                        data: "{'guid':'" + select.Guid + "'}",
-                        dataType: 'json',
-                        contentType: "application/json; charset=utf-8",
-                        error: function (err) {
-                            if (window == top) {
-                                window.location.href = '../Login.aspx';
-                            } else {
-                                top.location.href = '../Login.aspx';
-                            }
-                        },
-                        success: function (data) {
-                            var LODOP;
-                            if (data.d == "操作失败") {
-                                if (window == top) {
-                                    window.location.href = '../Login.aspx';
-                                } else {
-                                    top.location.href = '../Login.aspx';
-                                }
-                                return false;
-                            }
-                            LODOP = getLodop(document.getElementById('LODOP_OB'), document.getElementById('LODOP_EM'));
-                            LODOP.SET_PRINT_PAGESIZE(3, 0, 0, "A4");
-                            LODOP.SET_PRINT_STYLE("FontSize", 18);
-                            LODOP.SET_PRINT_STYLE("Bold", 1);
-                            LODOP.ADD_PRINT_HTM(4, 0, 500, 1200, data.d);
-                            LODOP.SET_SHOW_MODE("NP_NO_RESULT", true);
-                            LODOP.SET_PRINT_STYLEA(0, "HtmWaitMilSecs", 200);
-                            if (LODOP.CVERSION) {  //用CVERSION属性判断是否云打印
-                                LODOP.On_Return = function (TaskID, Value) {
-                                    if (Value == "1") {
-                                        $.ajax({
-                                            url: "/data/getAuditPurch.aspx/UpdatePrint",
-                                            type: "POST",
-                                            data: "{'guid':'" + select.Guid + "'}",
-                                            dataType: 'json',
-                                            contentType: "application/json; charset=utf-8",
-                                            error: function (err) {
-                                            },
-                                            success: function (data) {
-                                                $('#audittable').datagrid('reload');
-                                            }
-                                        });
-                                        return;
-                                    }
-                                };
-                                LODOP.PREVIEW();
-                                return;
-                            };
-
-                        }
-                    });
-                }
-            }, '-',
-            {
-                text: '作废',
-                iconCls: 'icon-cancel',
-                handler: function () {
-                    var select = $('#audittable').datagrid('getSelected');
-                    if (!select) {
-                        return false;
-                    }
-                    $('#txtbchGuid').val(select.Guid);
-                    $('#logis').window('open');
-                    $('#txtInvalidPurchNo').val(select.PurchNo);
-                }
+            //设置登录窗口
+            function openwid() {
+                $("#import_panel").panel('open');
+                $("#import_panel").show();
+                $('#logis').window({
+                    title: '填写作废原因',
+                    width: 350,
+                    modal: true,
+                    shadow: true,
+                    closed: true,
+                    height: 250,
+                    onBeforeClose: function () {
+                        $('#txtInvalidPurchNo').val("");
+                        $('#txtInvalidRemark').val("");
+                    },
+                    resizable: false
+                });
             }
-        ];
-
-        var Untoolbar = [
-            {
-                text: '接单',
-                iconCls: 'icon-ok',
-                handler: function () {
-                    var select = $('#tt').datagrid('getSelected');
-                    if (!select) {
-                        return false;
-                    }
-                    $.messager.confirm("系统提示", "确定是否要接单？", function (data) {
-                        if (!data) {
+            //关闭登录窗口
+            function close() {
+                $('#logis').window('close');
+            }
+            // 对Date的扩展，将 Date 转化为指定格式的String
+            // 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符， 
+            // 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字) 
+            // 例子： 
+            // (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423 
+            // (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18 
+            Date.prototype.Format = function (fmt) { //author: meizz 
+                var o = {
+                    "M+": this.getMonth() + 1, //月份 
+                    "d+": this.getDate(), //日 
+                    "h+": this.getHours(), //小时 
+                    "m+": this.getMinutes(), //分 
+                    "s+": this.getSeconds(), //秒 
+                    "q+": Math.floor((this.getMonth() + 3) / 3), //季度 
+                    "S": this.getMilliseconds() //毫秒 
+                };
+                if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+                for (var k in o)
+                    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+                return fmt;
+            }
+            //弹出信息窗口 title:标题 msgString:提示信息 msgType:信息类型 [error,info,question,warning]
+            function msgShow(title, msgString, msgType) {
+                $.messager.alert(title, msgString, msgType);
+            }
+            $("div[class='tabs-panels']").attr('overflow', 'hidden');
+            var toolbar = [
+                {
+                    text: '打印预览',
+                    iconCls: 'icon-print',
+                    handler: function () {
+                        var select = $('#audittable').datagrid('getSelected');
+                        if (!select) {
                             return false;
                         }
                         $.ajax({
-                            url: "/data/getUnauditPurch.aspx/Audit",
+                            url: "/data/print.aspx/PrintPurch",
                             type: "POST",
                             data: "{'guid':'" + select.Guid + "'}",
                             dataType: 'json',
@@ -463,99 +384,213 @@
                                 }
                             },
                             success: function (data) {
-                                if (data.d == "登陆失效") {
+                                var LODOP;
+                                if (data.d == "操作失败") {
                                     if (window == top) {
-                                        msgShow('系统提示', data.d, 'error');
                                         window.location.href = '../Login.aspx';
                                     } else {
-                                        msgShow('系统提示', data.d, 'error');
                                         top.location.href = '../Login.aspx';
                                     }
                                     return false;
                                 }
-                                else {
-                                    $('#tt').datagrid('reload');
-                                }
+                                LODOP = getLodop(document.getElementById('LODOP_OB'), document.getElementById('LODOP_EM'));
+                                LODOP.SET_PRINT_PAGESIZE(3, 0, 0, "A4");
+                                LODOP.SET_PRINT_STYLE("FontSize", 18);
+                                LODOP.SET_PRINT_STYLE("Bold", 1);
+                                LODOP.ADD_PRINT_HTM(4, 0, 500, 1200, data.d);
+                                LODOP.SET_SHOW_MODE("NP_NO_RESULT", true);
+                                LODOP.SET_PRINT_STYLEA(0, "HtmWaitMilSecs", 200);
+                                if (LODOP.CVERSION) {  //用CVERSION属性判断是否云打印
+                                    LODOP.On_Return = function (TaskID, Value) {
+                                        if (Value == "1") {
+                                            $.ajax({
+                                                url: "/data/getAuditPurch.aspx/UpdatePrint",
+                                                type: "POST",
+                                                data: "{'guid':'" + select.Guid + "'}",
+                                                dataType: 'json',
+                                                contentType: "application/json; charset=utf-8",
+                                                error: function (err) {
+                                                },
+                                                success: function (data) {
+                                                    $('#audittable').datagrid('reload');
+                                                }
+                                            });
+                                            return;
+                                        }
+                                    };
+                                    LODOP.PREVIEW();
+                                    return;
+                                };
+
                             }
                         });
                     }
-            )
-                }
-            }, '-',
-            {
-                text: '作废',
-                iconCls: 'icon-cancel',
-                handler: function () {
-                    var select = $('#tt').datagrid('getSelected');
-                    if (!select) {
-                        return false;
+                }, '-',
+                {
+                    text: '作废',
+                    iconCls: 'icon-cancel',
+                    handler: function () {
+                        var select = $('#audittable').datagrid('getSelected');
+                        if (!select) {
+                            return false;
+                        }
+                        $('#txtbchGuid').val(select.Guid);
+                        $('#logis').window('open');
+                        $('#txtInvalidPurchNo').val(select.PurchNo);
                     }
-                    $('#txtbchGuid').val(select.Guid);
-                    $('#logis').window('open');
-                    $('#txtInvalidPurchNo').val(select.PurchNo);
                 }
-            }
-        ];
+            ];
 
-        function clearNoNum(obj) {
-            obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
-            obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
-            obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
-            obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
-            obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
-        }
-        function SelectRow(rowIndex, rowData) {
-            if (typeof (rowData) == "undefined") {
-                $('#orderlist').datagrid('loadData', { total: 0, rows: [] });
-                return false;
-            }
-            var SuppPurchGuid = rowData.Guid;
-            $('#txtBatchId').val(SuppPurchGuid);
-            $('#orderlist').datagrid({
-                url: "/data/getPurchItemList.aspx?SuppPurchGuid=" + SuppPurchGuid,
-                columns: [[
-                                 {
-                                     field: 'Reserved2', title: '商品图片', width: '60', align: 'center', formatter: function (value, row) {
-                                         var str = "";
-                                         if (value != "" || value != null) {
-                                             if (typeof (value) != "undefined") {
-                                                 str = " <a class='various fancybox.iframe' style='margin-left:10px;' href='./showImg2.aspx?ImageSession=" + value + "' target='_blank'><img  onerror=\"this.style.display='none'\" style=\"height: 33px;width: 33px;\" alt='无' src=\"" + value + "\"/></a>";
-                                             } else {
-                                                 str = " <a class='various fancybox.iframe' style='margin-left:10px;' href='./showImg2.aspx?ImageSession=" + value + "' target='_blank'><img onerror=\"this.style.display='none'\" style=\"height: 33px;width: 33px;\" alt='无' /></a>";
-                                             }
-                                             return str;
-                                         }
-                                     }
-                                 },
-                                //{ field: 'ItemName', title: '商品名称', width: '230', sortable: true },
-                                //{ field: 'SkuProperties', title: '规格名称', width: '190', sortable: true },
-                                { field: 'OuterIid', title: '商品编码', width: '150', sortable: true, align: 'left' },
-                                { field: 'OuterSkuId', title: '规格编码', width: '180', sortable: true, align: 'left' },
-                                { field: 'Num', title: '采购数量', width: '80', sortable: true }
-                ]],
-            });
-            $('#orderlist').datagrid({
-                onLoadSuccess: function (data) {
-                    $('#orderlist').datagrid('doCellTip', { cls: { 'background-color': '#E6E6E6' }, delay: 300 });
-                },
-                onLoadError: function () {
-                    msgShow('系统提示', '正在加载中！', 'warning');
-                    return false;
-                },
-                loadFilter: function (data) {
-                    if (data.IsError) {
-                        alert("登录失效,请重新登录！");
-                        if (window == top) { window.location.href = '../Login.aspx'; } else { top.location.href = '../Login.aspx'; }
-                        return {
-                            total: 0,
-                            rows: []
-                        };
-                    } else {
-                        return data;
+            var Untoolbar = [
+                {
+                    text: '接单',
+                    iconCls: 'icon-ok',
+                    handler: function () {
+                        var select = $('#tt').datagrid('getSelected');
+                        if (!select) {
+                            return false;
+                        }
+                        $.messager.confirm("系统提示", "确定是否要接单？", function (data) {
+                            if (!data) {
+                                return false;
+                            }
+                            $.ajax({
+                                url: "/data/getUnauditPurch.aspx/Audit",
+                                type: "POST",
+                                data: "{'guid':'" + select.Guid + "'}",
+                                dataType: 'json',
+                                contentType: "application/json; charset=utf-8",
+                                error: function (err) {
+                                    if (window == top) {
+                                        window.location.href = '../Login.aspx';
+                                    } else {
+                                        top.location.href = '../Login.aspx';
+                                    }
+                                },
+                                success: function (data) {
+                                    if (data.d == "登陆失效") {
+                                        if (window == top) {
+                                            msgShow('系统提示', data.d, 'error');
+                                            window.location.href = '../Login.aspx';
+                                        } else {
+                                            msgShow('系统提示', data.d, 'error');
+                                            top.location.href = '../Login.aspx';
+                                        }
+                                        return false;
+                                    }
+                                    else {
+                                        $('#tt').datagrid('reload');
+                                    }
+                                }
+                            });
+                        }
+                )
+                    }
+                }, '-',
+                {
+                    text: '作废',
+                    iconCls: 'icon-cancel',
+                    handler: function () {
+                        var select = $('#tt').datagrid('getSelected');
+                        if (!select) {
+                            return false;
+                        }
+                        $('#txtbchGuid').val(select.Guid);
+                        $('#logis').window('open');
+                        $('#txtInvalidPurchNo').val(select.PurchNo);
                     }
                 }
-            });
-        }
+            ];
+
+            function clearNoNum(obj) {
+                obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
+                obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
+                obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+                obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+                obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
+            }
+            function SelectRow(rowIndex, rowData) {
+                if (typeof (rowData) == "undefined") {
+                    $('#orderlist').datagrid('loadData', { total: 0, rows: [] });
+                    return false;
+                }
+                var SuppPurchGuid = rowData.Guid;
+                $('#txtBatchId').val(SuppPurchGuid);
+                $('#orderlist').datagrid({
+                    url: "/data/getPurchItemList.aspx?SuppPurchGuid=" + SuppPurchGuid,
+                    columns: [[
+                                     {
+                                         field: 'Reserved2', title: '商品图片', width: '60', align: 'center', formatter: function (value, row) {
+                                             var str = "";
+                                             if (value != "" || value != null) {
+                                                 if (typeof (value) != "undefined") {
+                                                     str = " <a class='various fancybox.iframe' style='margin-left:10px;' href='./showImg2.aspx?ImageSession=" + value + "' target='_blank'><img  onerror=\"this.style.display='none'\" style=\"height: 33px;width: 33px;\" alt='无' src=\"" + value + "\"/></a>";
+                                                 } else {
+                                                     str = " <a class='various fancybox.iframe' style='margin-left:10px;' href='./showImg2.aspx?ImageSession=" + value + "' target='_blank'><img onerror=\"this.style.display='none'\" style=\"height: 33px;width: 33px;\" alt='无' /></a>";
+                                                 }
+                                                 return str;
+                                             }
+                                         }
+                                     },
+                                     {
+                                         field: 'SKImageUrl', title: '色卡图片', width: '60', align: 'center', formatter: function (value, row) {
+                                             var str = "";
+                                             if (value != "" || value != null) {
+                                                 if (typeof (value) != "undefined") {
+                                                     str = " <a class='various fancybox.iframe' style='margin-left:10px;' href='./showImg2.aspx?ImageSession=" + value + "' target='_blank'><img  onerror=\"this.style.display='none'\" style=\"height: 33px;width: 33px;\" alt='无' src=\"" + value + "\"/></a>";
+                                                 } else {
+                                                     str = " <a class='various fancybox.iframe' style='margin-left:10px;' href='./showImg2.aspx?ImageSession=" + value + "' target='_blank'><img onerror=\"this.style.display='none'\" style=\"height: 33px;width: 33px;\" alt='无' /></a>";
+                                                 }
+                                                 return str;
+                                             }
+                                         }
+                                     },
+                                    //{ field: 'ItemName', title: '商品名称', width: '230', sortable: true },
+                                    //{ field: 'SkuProperties', title: '规格名称', width: '190', sortable: true },
+                                    { field: 'OuterIid', title: '商品编码', width: '150', sortable: true, align: 'left' },
+                                    { field: 'OuterSkuId', title: '规格编码', width: '180', sortable: true, align: 'left' },
+                                    {
+                                        field: 'PlanArriveTime', width: '100', sortable: true, title: '预计到货时间',
+                                        formatter: function (value, row, index) {
+                                            if (typeof (value) != "undefined") {
+                                                value = value.replace(/\T/g, ' ');
+                                                if (value.lastIndexOf('.') > 0) {
+                                                    value = value.substring(0, value.lastIndexOf('.'));
+                                                }
+                                                if (value.lastIndexOf(' ') > 0) {
+                                                    value = value.substring(0, value.lastIndexOf(' '));
+                                                }
+                                            }
+                                            var unixTimestamp = value;
+                                            return unixTimestamp;
+                                        }
+                                    },
+                                    { field: 'ReceiverName', title: '收货人', width: '80', sortable: true },
+                                    { field: 'Remark', title: '备注', width: '80', sortable: true },
+                    ]],
+                });
+                $('#orderlist').datagrid({
+                    onLoadSuccess: function (data) {
+                        $('#orderlist').datagrid('doCellTip', { cls: { 'background-color': '#E6E6E6' }, delay: 300 });
+                    },
+                    onLoadError: function () {
+                        msgShow('系统提示', '正在加载中！', 'warning');
+                        return false;
+                    },
+                    loadFilter: function (data) {
+                        if (data.IsError) {
+                            alert("登录失效,请重新登录！");
+                            if (window == top) { window.location.href = '../Login.aspx'; } else { top.location.href = '../Login.aspx'; }
+                            return {
+                                total: 0,
+                                rows: []
+                            };
+                        } else {
+                            return data;
+                        }
+                    }
+                });
+            }
     </script>
 
     <div class="easyui-panel" data-options="closed:true" id="import_panel" style="display: none; border: hidden">

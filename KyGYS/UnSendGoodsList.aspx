@@ -14,19 +14,17 @@
     <link href="jquery-easyui-1.4.2/themes/metro/easyui.css" rel="stylesheet" />
     <script src="js/tip.js"></script>
     <script src="js/LodopFuncs.js"></script>
-<script src='http://Localhost:8000/CLodopfuncs.js'></script>
+    <script src="image-upload/jquery.uploadify.js"></script>
+    <link href="image-upload/uploadify.css" rel="stylesheet" />
 </head>
 <body>
     <object id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width="0" height="0">
         <embed id="LODOP_EM" type="application/x-print-lodop" width="0" height="0" pluginspage="install_lodop32.exe"></embed>
     </object>
     <form runat="server">
-        <div id="p" class="easyui-panel" style="width: 100%; height: 38px; padding: 4px;">
+        <input id="txtUser" runat="server" type="hidden" />
+        <div id="p" class="easyui-panel" style="width: 99%; height: 38px; padding: 4px;">
             <asp:Button runat="server" CssClass="easyui-linkbutton" ID="btnRef" Text="查  询" OnClick="btnRef_Click" Style="width: 80px; height: 28px;"></asp:Button>
-<%--            买家：<asp:TextBox runat="server" ID="txtBuyerNick"></asp:TextBox>
-            &nbsp;
-                        店铺:
-            <asp:TextBox runat="server" ID="txtSellerNick"></asp:TextBox>&nbsp;--%>
              收货人:
             <asp:TextBox runat="server" ID="txtReceiverName"></asp:TextBox>&nbsp;
              手机号:
@@ -37,12 +35,10 @@
         </div>
         <input type="hidden" id="txtBatchId" />
         <div style="margin: 6px 0;"></div>
-        <table title="" id="tt" rownumbers="true" pagination="true" style="width: 100%; height: 350px"
+        <table title="" id="tt" rownumbers="true" pagination="true" style="width: 99%; height: 320px"
             data-options="singleSelect:true,collapsible:true,url:'/data/getUnSendList.aspx',onSelect:SelectRow,toolbar:toolbar,method:'get',remoteSort:false,multiSort:true,pageSize:1,pageList:[10,20,50,100,200]">
             <thead>
                 <tr>
-<%--                    <th data-options="field:'SellerNick',width:120,sortable:true">店铺</th>
-                    <th data-options="field:'BuyerNick',width:118,sortable:true">买家</th>--%>
                     <th data-options="field:'OrderTime',width:143,sortable:true" formatter="datestr">下单时间</th>
                     <th data-options="field:'BatchItemCount',width:55, align: 'center', sortable:true">商品总数</th>
                     <th data-options="field:'ReceiverName',width:120,sortable:true">收货人</th>
@@ -54,7 +50,7 @@
 
         <div style="margin: 6px 0;"></div>
 
-        <table title="" class="easyui-datagrid" id="orderlist" rownumbers="true" style="width: 100%; height: 150px"
+        <table title="" class="easyui-datagrid" id="orderlist" rownumbers="true" style="width: 99%; height: 150px"
             data-options="singleSelect:true,collapsible:true,remoteSort:false,multiSort:true">
             <thead>
                 <tr>
@@ -141,6 +137,7 @@
                 $('#txtLogisCost').val("");
                 $('#txtLogisMobile').val("");
                 $('#txtbchGuid').val("");
+                $('#txtSuppBatchGuid').val("");
                 close();
             })
             $('#tt').datagrid({
@@ -173,11 +170,11 @@
             $("#import_panel").show();
             $('#logis').window({
                 title: '填写物流信息',
-                width: 350,
+                width: 380,
                 modal: true,
                 shadow: true,
                 closed: true,
-                height: 220,
+                height: 320,
                 onBeforeClose: function () {
                     $('#txtLogisNo').val("");
                     $('#txtLogisName').val("");
@@ -250,8 +247,7 @@
                                 }
                                 return false;
                             }
-                            if(data.d=="未财审")
-                            {
+                            if (data.d == "未财审") {
                                 msgShow('系统提示', '订单数据信息需要在ERP里财审才可以打印哦！', 'warning');
                                 return false;
                             }
@@ -300,6 +296,7 @@
                         return false;
                     }
                     $('#txtbchGuid').val(select.Guid);
+                    $('#txtSuppBatchGuid').val(select.BatchGuid);
                     $('#logis').window('open');
                 }
             }, '-', {
@@ -349,8 +346,9 @@
                                 { field: 'Num', title: '数量', width: '40', sortable: true },
                                 { field: 'PackageCount', title: '包件数', width: '40', sortable: true },
                                 { field: 'BusVolume', title: '体积', width: '60', sortable: true, align: 'left' },
-                                { field: 'Color', title: '颜色', width: '60', sortable: true, align: 'left' },
-                                { field: 'Size', title: '尺寸', width: '70', sortable: true, align: 'left' }
+                                { field: 'Color', title: '颜色', width: '100', sortable: true, align: 'left' },
+                                { field: 'Size', title: '尺寸', width: '70', sortable: true, align: 'left' },
+                                { field: 'Remark', title: '备注', width: '120', sortable: true, align: 'left' }
                 ]],
             });
             $('#orderlist').datagrid({
@@ -379,15 +377,17 @@
 
     <div class="easyui-panel" data-options="closed:true" id="import_panel" style="display: none; border: hidden">
         <div id="logis" class="easyui-window" title="填写物流信息" collapsible="false" minimizable="false"
-            maximizable="false" icon="icon-save" style="width: 280px; height: 124px; background: #fafafa;">
+            maximizable="false" icon="icon-save" style="width: 500px; height: 500px;background: #fafafa;">
             <div class="easyui-layout" fit="true">
-                <div region="center" border="false" style="padding: 10px; background: #fff; border: 1px solid #ccc;">
+                <div region="center" border="false" style="padding: 20px; background: #fff; border: 1px solid #ccc;">
                     <table cellpadding="3">
                         <tr>
                             <td>物流单号：</td>
                             <td>
                                 <input id="txtLogisNo" type="text" class="txt01" />
                                 <input id="txtbchGuid" type="hidden" />
+                                <input id="txtSuppBatchGuid" type="hidden" />
+                                <input id="boolflag" type="hidden" />
                             </td>
 
                         </tr>
@@ -406,6 +406,26 @@
                             <td>联系号码：</td>
                             <td>
                                 <input id="txtLogisMobile" type="text" class="txt01" /></td>
+                        </tr>
+                        <tr>
+                             <td>
+                            <label for="Attachment_GUID">上传凭证：</label>
+                        </td>
+                        <td>                            
+                            <div>
+                                <input class="easyui-validatebox" type="hidden" id="Attachment_GUID" name="Attachment_GUID" />
+                                <input id="file_upload" name="file_upload" type="file" multiple="multiple" />
+
+                                <a href="javascript:void(0)" class="easyui-linkbutton" id="btnUpload" data-options="plain:true,iconCls:'icon-save'"
+                                    onclick="javascript: $('#file_upload').uploadify('upload', '*')">上传</a>
+                                <a href="javascript:void(0)" class="easyui-linkbutton" id="btnCancelUpload" data-options="plain:true,iconCls:'icon-cancel'"
+                                    onclick="javascript: $('#file_upload').uploadify('cancel', '*')">取消</a>
+
+                                <div id="fileQueue" class="fileQueue"></div>
+                                <div id="div_files"></div>
+                                <br />
+                            </div>
+                        </td>
                         </tr>
                     </table>
                 </div>
@@ -433,5 +453,45 @@
             });
         });
     </script>
+    <script type="text/javascript">
+            $(function () {
+                //添加界面的附件管理
+                $('#file_upload').uploadify({
+                    'swf': 'image-upload/uploadify.swf',  //FLash文件路径
+                    'buttonText': '浏  览',                                 //按钮文本
+                    'uploader': '../server/fileupload.ashx',                       //处理文件上传Action
+                    'queueID': 'fileQueue',                        //队列的ID
+                    'queueSizeLimit': 5,                          //队列最多可上传文件数量，默认为999
+                    'auto': false,                                 //选择文件后是否自动上传，默认为true
+                    'multi': true,                                 //是否为多选，默认为true
+                    'removeCompleted': true,                       //是否完成后移除序列，默认为true
+                    'fileSizeLimit': '3MB',                       //单个文件大小，0为无限制，可接受KB,MB,GB等单位的字符串值
+                    'fileTypeDesc': 'Image Files',                 //文件描述
+                    'fileTypeExts': '*.gif; *.jpg; *.png; *.bmp;',  //上传的文件后缀过滤器
+                    'onQueueComplete': function (event, data) {                 //所有队列完成后事件
+                       // ShowUpFiles($("#Attachment_GUID").val(), "div_files");  //完成后更新已上传的文件列表
+                        //提示完成      
+                        var flag = $("#boolflag").val();
+                        if (flag == "")
+                        {
+                            $.messager.alert("提示", "上传完毕！");
+                            $("#boolflag").val("");
+                        }
+                    },
+                    'onUploadStart': function (file) {
+                        $("#file_upload").uploadify("settings", 'formData', { 'ImageSession': $('#txtSuppBatchGuid').val(), 'UserName': $("#<%=txtUser.ClientID%>").val() }); //动态传参数
+                    },
+                    "onUploadComplete": function (event, data, response) {
+
+                    }, "onUploadSuccess": function (file, data, response) {
+                        //$.messager.alert("提示", "上传完毕！");
+                        if (data != undefined && data != "") {
+                            $.messager.alert("提示", data);
+                            $("#boolflag").val("上传失败");
+                        }
+                    }
+                });
+            });
+        </script>
 </body>
 </html>

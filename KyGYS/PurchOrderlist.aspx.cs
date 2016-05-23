@@ -20,7 +20,9 @@ namespace KyGYS
         {
             string queryStr = string.Empty;
             string PurchNo = this.txtPurchNo.Text.Trim();
-            queryStr += PurchNo+",";;
+            string ReceiverName = this.txtReceiverName.Text.Trim();
+            queryStr += PurchNo+",";
+            queryStr += ReceiverName + ",";
             queryStr += tabindex.Value;
             Session["PurStr"] = queryStr;
         }

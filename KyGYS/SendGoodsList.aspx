@@ -18,13 +18,13 @@
 </head>
 <body>
     <form runat="server">
-        <div id="p" class="easyui-panel" style="width: 100%; height: 40px; padding: 6px;">
+        <div id="p" class="easyui-panel" style="width: 99%; height: 40px; padding: 6px;">
             <asp:Button runat="server" CssClass="easyui-linkbutton" ID="btnRef" Text="查  询" OnClick="btnRef_Click" Style="width: 80px; height: 28px;"></asp:Button>
-<%--            买家：<asp:TextBox runat="server" ID="txtBuyerNick"></asp:TextBox>--%>
+            <%--            买家：<asp:TextBox runat="server" ID="txtBuyerNick"></asp:TextBox>--%>
             &nbsp;
             <%--            订单来源:
             <asp:TextBox runat="server" ID="txtOrderFrom"></asp:TextBox>&nbsp;--%>
-<%--                                    店铺:
+            <%--                                    店铺:
             <asp:TextBox runat="server" ID="txtSellerNick"></asp:TextBox>&nbsp;--%>
              收货人:
             <asp:TextBox runat="server" ID="txtReceiverName"></asp:TextBox>&nbsp;
@@ -35,9 +35,10 @@
 
         </div>
         <input type="hidden" id="txtBatchId" />
+        <input type="hidden" id="txtUserName" runat="server" />
         <div style="margin: 6px 0;"></div>
 
-        <table title="" class="easyui-datagrid" id="tt" rownumbers="true" pagination="true" style="width: 100%; height: 309px"
+        <table title="" class="easyui-datagrid" id="tt" rownumbers="true" pagination="true" style="width: 99%; height: 320px"
             data-options="singleSelect:true,collapsible:true,url:'/data/getSendList.aspx',onSelect:SelectRow,toolbar:toolbar,method:'get',remoteSort:false,multiSort:true,pageSize:1,pageList:[10,20,50,100,200]">
             <thead>
                 <tr>
@@ -57,11 +58,11 @@
         <%--        <input type="checkbox" hidden checked onchange="$('#tt').datagrid({selectOnCheck:$(this).is(':checked')})" />
         <input type="checkbox" hidden checked onchange="$('#tt').datagrid({checkOnSelect:$(this).is(':checked')})" />--%>
 
-        <table title="" class="easyui-datagrid" id="orderlist" rownumbers="true" style="width: 100%; height: 150px"
+        <table title="" class="easyui-datagrid" id="orderlist" rownumbers="true" style="width: 99%; height: 150px"
             data-options="singleSelect:true,collapsible:true,remoteSort:false,multiSort:true">
             <thead>
                 <tr>
-<%--                    <th data-options="field:'ItemName',width:200,sortable:true" title="admin">商品名称</th>
+                    <%--                    <th data-options="field:'ItemName',width:200,sortable:true" title="admin">商品名称</th>
                     <th data-options="field:'SkuProperties',width:190,sortable:true">规格名称</th>--%>
                     <th data-options="field:'OuterIid',width:200,align:'left',sortable:true">商品编码</th>
                     <th data-options="field:'OuterSkuId',width:200,align:'left',sortable:true">规格编码</th>
@@ -70,6 +71,7 @@
                     <th data-options="field:'BusVolume',width:80,align:'left',sortable:true">体积</th>
                     <th data-options="field:'Size',width:80,align:'left',sortable:true">尺寸</th>
                     <th data-options="field:'Color',width:120,align:'left',sortable:true">颜色</th>
+                    <th data-options="field:'Remark',width:120,align:'left',sortable:true">备注</th>
                 </tr>
             </thead>
         </table>
@@ -158,7 +160,9 @@
                        formatter: function (value, row, index) {
                            if (typeof (value) != "undefined") {
                                value = value.replace(/\T/g, ' ');
-                               value = value.substring(0, value.lastIndexOf('.'));
+                               if (value.lastIndexOf('.') > 0) {
+                                   value = value.substring(0, value.lastIndexOf('.'));
+                               }
                            }
                            //  var unixTimestamp = new Date(value).Format("yyyy-MM-dd hh:mm:ss");
                            var unixTimestamp = value;
@@ -172,7 +176,26 @@
                    { field: 'LogisNo', title: '物流单号', width: '110', sortable: true },
                    { field: 'LogisName', title: '物流公司', width: '110', sortable: true },
                   { field: 'LogisCost', title: '实际运费', width: '60', sortable: true },
-                  { field: 'LogisMobile', title: '物流电话', width: '100', sortable: true }
+                  { field: 'LogisMobile', title: '物流电话', width: '100', sortable: true },
+                {
+                    field: 'imgcount', title: '上传图片', width: '60', align: 'center', formatter: function (value, row) {
+                        var str = "";
+                        $()
+                if (value != "" || value != null) {
+                    if (typeof (value) != "undefined") {
+                        var list = value.split('_');
+                        if (list != null && list != "undefined" && list.length > 1) {
+                            str = " <a class='various fancybox.iframe' style='margin-left:10px;' href='./showImg.aspx?ImageSession=" + list[1] + "&UserName=" + $("#<%=txtUserName.ClientID%>").val() + "' target='_blank'>" + list[0] + "</a>";
+                        } else {
+                            str = " <a class='various fancybox.iframe' style='margin-left:10px;' ></a>";
+                        }
+                    } else {
+                        str = " <a class='various fancybox.iframe' style='margin-left:10px;' ></a>";
+                    }
+                    return str;
+                }
+            }
+        }
                 ]],
             });
         });
@@ -193,6 +216,7 @@
                 //},
                 resizable: false
             });
+
         }
         //关闭登录窗口
         function close() {
@@ -284,36 +308,37 @@
                                        },
                                       //{ field: 'ItemName', title: '商品名称', width: '230', sortable: true },
                                       //{ field: 'SkuProperties', title: '规格名称', width: '190', sortable: true },
-                                      { field: 'OuterIid', title: '商品编码', width: '150', sortable: true, align: 'left' },
-                                      { field: 'OuterSkuId', title: '规格编码', width: '150', sortable: true, align: 'left' },
-                                      { field: 'Num', title: '数量', width: '40', sortable: true },
-                                      { field: 'PackageCount', title: '包件数', width: '40', sortable: true },
-                                      { field: 'BusVolume', title: '体积', width: '60', sortable: true, align: 'left' },
-                                      { field: 'Size', title: '尺寸', width: '70', sortable: true, align: 'left' },
-                                      { field: 'Color', title: '颜色', width: '110', sortable: true, align: 'left' }
-                ]],
-            });
-            $('#orderlist').datagrid({
-                onLoadSuccess: function (data) {
-                    $('#orderlist').datagrid('doCellTip', { cls: { 'background-color': '#E6E6E6' }, delay: 300 });
-                },
-                onLoadError: function () {
-                    msgShow('系统提示', '正在加载中！', 'warning');
-                    return false;
-                },
-                loadFilter: function (data) {
-                    if (data.IsError) {
-                        alert("登录失效,请重新登录！");
-                        if (window == top) { window.location.href = '../Login.aspx'; } else { top.location.href = '../Login.aspx'; }
-                        return {
-                            total: 0,
-                            rows: []
-                        };
-                    } else {
-                        return data;
-                    }
+                { field: 'OuterIid', title: '商品编码', width: '150', sortable: true, align: 'left' },
+        { field: 'OuterSkuId', title: '规格编码', width: '150', sortable: true, align: 'left' },
+        { field: 'Num', title: '数量', width: '40', sortable: true },
+        { field: 'PackageCount', title: '包件数', width: '40', sortable: true },
+        { field: 'BusVolume', title: '体积', width: '60', sortable: true, align: 'left' },
+        { field: 'Size', title: '尺寸', width: '70', sortable: true, align: 'left' },
+        { field: 'Color', title: '颜色', width: '110', sortable: true, align: 'left' },
+        { field: 'Remark', title: '备注', width: '70', sortable: true, align: 'left' }
+        ]],
+        });
+        $('#orderlist').datagrid({
+            onLoadSuccess: function (data) {
+                $('#orderlist').datagrid('doCellTip', { cls: { 'background-color': '#E6E6E6' }, delay: 300 });
+            },
+            onLoadError: function () {
+                msgShow('系统提示', '正在加载中！', 'warning');
+                return false;
+            },
+            loadFilter: function (data) {
+                if (data.IsError) {
+                    alert("登录失效,请重新登录！");
+                    if (window == top) { window.location.href = '../Login.aspx'; } else { top.location.href = '../Login.aspx'; }
+                    return {
+                        total: 0,
+                        rows: []
+                    };
+                } else {
+                    return data;
                 }
-            });
+            }
+        });
         }
 
 
@@ -359,5 +384,22 @@
             </div>
         </div>
     </div>
+    <link href="js/jquery.fancybox.css" rel="stylesheet" />
+    <script src="js/jquery.fancybox.pack.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".various").fancybox({
+                //maxWidth: 800,
+                //maxHeight: 600,
+                fitToView: false,
+                width: '80%',
+                height: '80%',
+                autoSize: false,
+                closeClick: false,
+                openEffect: 'none',
+                closeEffect: 'none'
+            });
+        });
+    </script>
 </body>
 </html>

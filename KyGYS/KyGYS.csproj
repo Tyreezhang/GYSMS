@@ -82,6 +82,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\webuploader.css" />
     <Content Include="Data\editPwd.aspx" />
     <Content Include="Data\export.aspx" />
     <Content Include="Data\getAuditPurch.aspx" />
@@ -96,6 +97,39 @@
     <Content Include="Data\operateUser.aspx" />
     <Content Include="Data\print.aspx" />
     <Content Include="Data\getPurchItemList.aspx" />
+    <Content Include="dist\Uploader.swf" />
+    <Content Include="dist\webuploader.css" />
+    <Content Include="dist\webuploader.custom.js" />
+    <Content Include="dist\webuploader.custom.min.js" />
+    <Content Include="dist\webuploader.fis.js" />
+    <Content Include="dist\webuploader.flashonly.js" />
+    <Content Include="dist\webuploader.flashonly.min.js" />
+    <Content Include="dist\webuploader.html5only.js" />
+    <Content Include="dist\webuploader.html5only.min.js" />
+    <Content Include="dist\webuploader.js" />
+    <Content Include="dist\webuploader.min.js" />
+    <Content Include="dist\webuploader.noimage.js" />
+    <Content Include="dist\webuploader.noimage.min.js" />
+    <Content Include="dist\webuploader.nolog.js" />
+    <Content Include="dist\webuploader.nolog.min.js" />
+    <Content Include="dist\webuploader.withoutimage.js" />
+    <Content Include="dist\webuploader.withoutimage.min.js" />
+    <Content Include="image-upload\bg.png" />
+    <Content Include="image-upload\expressInstall.swf" />
+    <Content Include="image-upload\icons.png" />
+    <Content Include="image-upload\image.png" />
+    <Content Include="image-upload\index.html" />
+    <Content Include="image-upload\jquery.js" />
+    <Content Include="image-upload\jquery.uploadify.js" />
+    <Content Include="image-upload\jquery.uploadify.min.js" />
+    <Content Include="image-upload\progress.png" />
+    <Content Include="image-upload\style.css" />
+    <Content Include="image-upload\success.png" />
+    <Content Include="image-upload\upimg.aspx" />
+    <Content Include="image-upload\upload.js" />
+    <Content Include="image-upload\uploadify-cancel.png" />
+    <Content Include="image-upload\uploadify.css" />
+    <Content Include="image-upload\uploadify.swf" />
     <Content Include="images\blocks.gif" />
     <Content Include="images\CategorizeMenu.png" />
     <Content Include="images\directory.png" />
@@ -803,6 +837,7 @@
     <Content Include="OtherNameList.aspx" />
     <Content Include="ref\MoreLinq.dll" />
     <Content Include="Register.aspx" />
+    <Content Include="showImg.aspx" />
     <Content Include="showImg2.aspx" />
     <Content Include="style\Login.css" />
     <Content Include="style\one.css" />
@@ -919,6 +954,12 @@
     <Compile Include="Data\getPurchItemList.aspx.designer.cs">
       <DependentUpon>getPurchItemList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="image-upload\upimg.aspx.cs">
+      <DependentUpon>upimg.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="image-upload\upimg.aspx.designer.cs">
+      <DependentUpon>upimg.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Index.aspx.cs">
       <DependentUpon>Index.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -953,6 +994,9 @@
     </Compile>
     <Compile Include="Register.aspx.designer.cs">
       <DependentUpon>Register.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="server\fileupload.ashx.cs">
+      <DependentUpon>fileupload.ashx</DependentUpon>
     </Compile>
     <Compile Include="UnSendGoodsList.aspx.cs">
       <DependentUpon>UnSendGoodsList.aspx</DependentUpon>
@@ -1007,9 +1051,13 @@
     <Content Include="jquery-easyui-1.4.2\demo\tree\tree_data2.json" />
     <Content Include="images\login\Thumbs.db" />
     <Content Include="jquery-easyui-1.4.2\themes\default\images\Thumbs.db" />
+    <Content Include="dist\README.md" />
+    <Content Include="image-upload\icons.psd" />
+    <Content Include="image-upload\progress.psd" />
     <None Include="Properties\PublishProfiles\kygys.pubxml" />
     <None Include="Properties\PublishProfiles\msgys.pubxml" />
     <None Include="Properties\PublishProfiles\yjgys.pubxml" />
+    <Content Include="server\fileupload.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

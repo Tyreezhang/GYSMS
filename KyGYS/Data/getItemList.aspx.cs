@@ -37,7 +37,7 @@ namespace KyGYS.Data
                 }  
                 items.ForEach(j =>
                 {
-                    j.Reserved2 = KyGYS.Controls.CommonUtil.GetItemImgFileName(j.Reserved2);
+                    j.Reserved2 ="http://101.251.96.120:30000/Item_Images/MSTest/"+ KyGYS.Controls.CommonUtil.GetItemImgFileName(j.Reserved2);
                 });
                 var grd = new EasyGridData<V_ERP_SuppOrder>();
                 grd.total = items.Count().ToString();

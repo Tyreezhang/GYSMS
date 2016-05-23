@@ -70,3 +70,4 @@ H:\118Git\GYS_MS\KyGYS\bin\KyGYS.Controls.pdb
 H:\118Git\GYS_MS\KyGYS\obj\Release\KyGYS.csprojResolveAssemblyReference.cache
 H:\118Git\GYS_MS\KyGYS\obj\Release\KyGYS.dll
 H:\118Git\GYS_MS\KyGYS\obj\Release\KyGYS.pdb
+H:\118Git\GYS_MS\KyGYS\bin\Ultra.DbEntity.pdb

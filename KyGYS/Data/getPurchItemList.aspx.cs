@@ -24,22 +24,30 @@ namespace KyGYS.Data
 
         private void GetItem(string SuppPurchGuid)
         {
-            List<T_ERP_SuppPurchItem> items = null;
+            List<V_ERP_PurchItemIsCard> items = null;
             using (var db = new Database(SQLCONN.Conn))
             {
                 if (!string.IsNullOrEmpty(UserName) && UserName != "admin")
                 {
-                    items = db.Fetch<T_ERP_SuppPurchItem>("select * from T_ERP_SuppPurchItem where SuppPurchGuid=@0  and SuppName =@1", SuppPurchGuid, UserName);
+                    items = db.Fetch<V_ERP_PurchItemIsCard>("select * from V_ERP_PurchItemIsCard where SuppPurchGuid=@0  and SuppName =@1 and  isnull(Num,0) > 0", SuppPurchGuid, UserName);
                 }
                 else
                 {
-                    items = db.Fetch<T_ERP_SuppPurchItem>("select * from T_ERP_SuppPurchItem where SuppPurchGuid=@0", SuppPurchGuid);
+                    items = db.Fetch<V_ERP_PurchItemIsCard>("select * from V_ERP_PurchItemIsCard where SuppPurchGuid=@0", SuppPurchGuid);
                 }  
                 items.ForEach(j =>
                 {
                     j.Reserved2 = "http://101.251.96.120:30000/Item_Images/MSTest/" + KyGYS.Controls.CommonUtil.GetItemImgFileName(j.OuterIid + j.OuterSkuId + ".jpg");
+                    if (j.IsCard)
+                    {
+                        j.SKImageUrl = "http://101.251.96.120:30000/Images/" + j.SKImageUrl.Remove(0, 6);
+                    }
+                    else
+                    {
+                        j.SKImageUrl = "";
+                    }
                 });
-                var grd = new EasyGridData<T_ERP_SuppPurchItem>();
+                var grd = new EasyGridData<V_ERP_PurchItemIsCard>();
                 grd.total = items.Count().ToString();
                 grd.rows = items;
                 string data = Newtonsoft.Json.JsonConvert.SerializeObject(grd);

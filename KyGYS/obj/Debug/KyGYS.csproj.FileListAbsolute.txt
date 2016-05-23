@@ -55,3 +55,6 @@ H:\118Git\GYS_MS\KyGYS\bin\Ultra.Cache.dll
 H:\118Git\GYS_MS\KyGYS\bin\MySql.Data.dll
 H:\118Git\GYS_MS\KyGYS\obj\Debug\KyGYS.dll
 H:\118Git\GYS_MS\KyGYS\obj\Debug\KyGYS.pdb
+H:\118Git\GYS_MS\KyGYS\bin\KyGYS.Common.pdb
+H:\118Git\GYS_MS\KyGYS\bin\KyGYS.Controls.pdb
+H:\118Git\GYS_MS\KyGYS\bin\Ultra.DbEntity.pdb

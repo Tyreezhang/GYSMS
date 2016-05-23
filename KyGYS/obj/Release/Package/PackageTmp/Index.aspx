@@ -22,19 +22,19 @@
                 var _menus = {
                     "menus": [
                          {
-                             "menuid": "1", "icon": "icon-sys", "menuname": "订单管理",
+                             "menuid": "1", "icon": "icon-sys", "menuname": "订单管理", "selected": false,
                              "menus": [{ "menuname": "未发货订单", "icon": "icon-nav", "url": "./UnSendGoodsList.aspx" },
                                  { "menuname": "已发货订单", "icon": "icon-nav", "url": "./SendGoodsList.aspx" }
                              ]
                          },
                          {
-                             "menuid": "2", "icon": "icon-sys", "menuname": "采购管理",
+                             "menuid": "2", "icon": "icon-sys", "menuname": "采购管理", "selected": true,
                              "menus": [
-                                     { "menuname": "采购订单", "icon": "icon-nav", "url": "./PurchOrderlist.aspx" }
+                                     { "menuname": "采购订单", "icon": "icon-nav", "url": "./PurchOrderlist.aspx"}
                              ]
                          },
                          {
-                             "menuid": "3", "icon": "icon-sys", "menuname": "系统管理",
+                             "menuid": "3", "icon": "icon-sys", "menuname": "系统管理", "selected": false,
                              "menus": [
                                      { "menuname": "用户管理", "icon": "icon-users", "url": "./Userlist.aspx" },
                                      { "menuname": "别名设置", "icon": "icon-users", "url": "./OtherNamelist.aspx" }
@@ -47,15 +47,15 @@
                 var _menus = {
                     "menus": [
                          {
-                             "menuid": "1", "icon": "icon-sys", "menuname": "订单管理",
+                             "menuid": "1", "icon": "icon-sys", "menuname": "订单管理", "selected": false,
                              "menus": [{ "menuname": "未发货订单", "icon": "icon-nav", "url": "./UnSendGoodsList.aspx" },
                                  { "menuname": "已发货订单", "icon": "icon-nav", "url": "./SendGoodsList.aspx" }
                              ]
                          },
                          {
-                             "menuid": "2", "icon": "icon-sys", "menuname": "采购管理",
+                             "menuid": "2", "icon": "icon-sys", "menuname": "采购管理", "selected": true,
                              "menus": [
-                                     { "menuname": "采购订单", "icon": "icon-nav", "url": "./PurchOrderlist.aspx" }
+                                     { "menuname": "采购订单", "icon": "icon-nav", "url": "./PurchOrderlist.aspx"}
                              ]
                          }
                     ]
@@ -68,7 +68,7 @@
                 var menulist = "";
 
                 $.each(_menus.menus, function (i, n) {
-                    menulist += '<div title="' + n.menuname + '"  icon="' + n.icon + '" style="overflow:auto;">';
+                    menulist += '<div title="' + n.menuname + '"  icon="' + n.icon + '" selected="' + n.selected + '" style="overflow:auto;">';
                     menulist += '<ul>';
                     $.each(n.menus, function (j, o) {
                         menulist += '<li><div><a target="mainFrame" way="' + o.url + '" ><span class="icon ' + o.icon + '" ></span>' + o.menuname + '</a></div></li> ';

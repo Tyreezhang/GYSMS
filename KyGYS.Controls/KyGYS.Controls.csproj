@@ -76,6 +76,7 @@
     <Compile Include="Controller\CtlSuppOrderController.cs" />
     <Compile Include="Controller\CtlSuppPurchController.cs" />
     <Compile Include="Controller\CtlUserController.cs" />
+    <Compile Include="Controller\CtlV_ERP_GetImgController.cs" />
     <Compile Include="Controller\CtlV_ERP_NPrintBatchController.cs" />
     <Compile Include="Controller\CtlV_ERP_NPrintItemController.cs" />
     <Compile Include="Controller\CtlV_ERP_NprintPurchController.cs" />

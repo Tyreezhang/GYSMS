@@ -13,13 +13,13 @@
       <publishTime>02/18/2016 14:33:21</publishTime>
     </File>
     <File Include="bin/KyGYS.Common.dll">
-      <publishTime>05/12/2016 11:55:36</publishTime>
+      <publishTime>05/19/2016 18:48:27</publishTime>
     </File>
     <File Include="bin/KyGYS.Controls.dll">
-      <publishTime>05/12/2016 11:55:37</publishTime>
+      <publishTime>05/20/2016 14:27:56</publishTime>
     </File>
     <File Include="bin/KyGYS.dll">
-      <publishTime>05/13/2016 12:03:58</publishTime>
+      <publishTime>05/20/2016 14:27:57</publishTime>
     </File>
     <File Include="bin/MoreLinq.dll">
       <publishTime>09/16/2015 18:21:33</publishTime>
@@ -40,7 +40,7 @@
       <publishTime>04/22/2015 09:22:31</publishTime>
     </File>
     <File Include="bin/Ultra.DbEntity.dll">
-      <publishTime>05/13/2016 12:03:51</publishTime>
+      <publishTime>05/20/2016 14:27:12</publishTime>
     </File>
     <File Include="bin/Ultra.Logic.dll">
       <publishTime>04/22/2015 09:22:31</publishTime>
@@ -53,6 +53,9 @@
     </File>
     <File Include="bin/Ultra.Win.Core.dll">
       <publishTime>03/26/2015 14:17:40</publishTime>
+    </File>
+    <File Include="css/webuploader.css">
+      <publishTime>09/22/2014 06:31:00</publishTime>
     </File>
     <File Include="Data/editPwd.aspx">
       <publishTime>04/23/2015 19:16:28</publishTime>
@@ -96,8 +99,116 @@
     <File Include="Data/print.aspx">
       <publishTime>01/15/2016 14:14:51</publishTime>
     </File>
+    <File Include="dist/README.md">
+      <publishTime>11/04/2015 23:15:46</publishTime>
+    </File>
+    <File Include="dist/Uploader.swf">
+      <publishTime>11/04/2015 23:15:46</publishTime>
+    </File>
+    <File Include="dist/webuploader.css">
+      <publishTime>11/04/2015 23:15:46</publishTime>
+    </File>
+    <File Include="dist/webuploader.custom.js">
+      <publishTime>11/04/2015 23:15:46</publishTime>
+    </File>
+    <File Include="dist/webuploader.custom.min.js">
+      <publishTime>11/04/2015 23:15:47</publishTime>
+    </File>
+    <File Include="dist/webuploader.fis.js">
+      <publishTime>11/04/2015 23:15:47</publishTime>
+    </File>
+    <File Include="dist/webuploader.flashonly.js">
+      <publishTime>11/04/2015 23:15:47</publishTime>
+    </File>
+    <File Include="dist/webuploader.flashonly.min.js">
+      <publishTime>11/04/2015 23:15:47</publishTime>
+    </File>
+    <File Include="dist/webuploader.html5only.js">
+      <publishTime>11/04/2015 23:15:47</publishTime>
+    </File>
+    <File Include="dist/webuploader.html5only.min.js">
+      <publishTime>11/04/2015 23:15:47</publishTime>
+    </File>
+    <File Include="dist/webuploader.js">
+      <publishTime>11/04/2015 23:15:47</publishTime>
+    </File>
+    <File Include="dist/webuploader.min.js">
+      <publishTime>11/04/2015 23:15:47</publishTime>
+    </File>
+    <File Include="dist/webuploader.noimage.js">
+      <publishTime>11/04/2015 23:15:47</publishTime>
+    </File>
+    <File Include="dist/webuploader.noimage.min.js">
+      <publishTime>11/04/2015 23:15:47</publishTime>
+    </File>
+    <File Include="dist/webuploader.nolog.js">
+      <publishTime>11/04/2015 23:15:47</publishTime>
+    </File>
+    <File Include="dist/webuploader.nolog.min.js">
+      <publishTime>11/04/2015 23:15:47</publishTime>
+    </File>
+    <File Include="dist/webuploader.withoutimage.js">
+      <publishTime>11/04/2015 23:15:47</publishTime>
+    </File>
+    <File Include="dist/webuploader.withoutimage.min.js">
+      <publishTime>11/04/2015 23:15:47</publishTime>
+    </File>
     <File Include="head.html">
       <publishTime>05/12/2016 14:09:08</publishTime>
+    </File>
+    <File Include="image-upload/bg.png">
+      <publishTime>09/22/2014 06:31:00</publishTime>
+    </File>
+    <File Include="image-upload/expressInstall.swf">
+      <publishTime>09/22/2014 06:31:00</publishTime>
+    </File>
+    <File Include="image-upload/icons.png">
+      <publishTime>09/22/2014 06:31:00</publishTime>
+    </File>
+    <File Include="image-upload/icons.psd">
+      <publishTime>09/22/2014 06:31:00</publishTime>
+    </File>
+    <File Include="image-upload/image.png">
+      <publishTime>09/22/2014 06:31:00</publishTime>
+    </File>
+    <File Include="image-upload/index.html">
+      <publishTime>06/29/2015 17:03:15</publishTime>
+    </File>
+    <File Include="image-upload/jquery.js">
+      <publishTime>09/22/2014 06:31:00</publishTime>
+    </File>
+    <File Include="image-upload/jquery.uploadify.js">
+      <publishTime>05/20/2016 09:49:48</publishTime>
+    </File>
+    <File Include="image-upload/jquery.uploadify.min.js">
+      <publishTime>05/19/2016 15:16:38</publishTime>
+    </File>
+    <File Include="image-upload/progress.png">
+      <publishTime>09/22/2014 06:31:00</publishTime>
+    </File>
+    <File Include="image-upload/progress.psd">
+      <publishTime>09/22/2014 06:31:00</publishTime>
+    </File>
+    <File Include="image-upload/style.css">
+      <publishTime>10/30/2015 16:15:00</publishTime>
+    </File>
+    <File Include="image-upload/success.png">
+      <publishTime>09/22/2014 06:31:00</publishTime>
+    </File>
+    <File Include="image-upload/upimg.aspx">
+      <publishTime>10/27/2015 16:22:18</publishTime>
+    </File>
+    <File Include="image-upload/upload.js">
+      <publishTime>10/31/2015 11:10:11</publishTime>
+    </File>
+    <File Include="image-upload/uploadify-cancel.png">
+      <publishTime>05/19/2016 15:16:53</publishTime>
+    </File>
+    <File Include="image-upload/uploadify.css">
+      <publishTime>05/19/2016 16:09:50</publishTime>
+    </File>
+    <File Include="image-upload/uploadify.swf">
+      <publishTime>05/19/2016 15:16:38</publishTime>
     </File>
     <File Include="images/blocks.gif">
       <publishTime>04/24/2010 15:12:24</publishTime>
@@ -217,7 +328,7 @@
       <publishTime>05/26/2015 12:20:26</publishTime>
     </File>
     <File Include="Index.aspx">
-      <publishTime>05/10/2016 15:17:10</publishTime>
+      <publishTime>05/16/2016 10:46:23</publishTime>
     </File>
     <File Include="install_lodop32.exe">
       <publishTime>12/14/2015 11:01:26</publishTime>
@@ -2281,7 +2392,7 @@
       <publishTime>05/27/2015 18:47:22</publishTime>
     </File>
     <File Include="PurchOrderlist.aspx">
-      <publishTime>05/12/2016 18:25:00</publishTime>
+      <publishTime>05/19/2016 10:14:55</publishTime>
     </File>
     <File Include="ref/MoreLinq.dll">
       <publishTime>09/16/2015 18:21:33</publishTime>
@@ -2290,7 +2401,10 @@
       <publishTime>04/25/2015 12:30:10</publishTime>
     </File>
     <File Include="SendGoodsList.aspx">
-      <publishTime>05/13/2016 11:54:38</publishTime>
+      <publishTime>05/20/2016 14:10:41</publishTime>
+    </File>
+    <File Include="server/fileupload.ashx">
+      <publishTime>05/19/2016 16:28:37</publishTime>
     </File>
     <File Include="showImg2.aspx">
       <publishTime>10/12/2015 16:59:06</publishTime>
@@ -2314,7 +2428,7 @@
       <publishTime>12/14/2015 18:07:08</publishTime>
     </File>
     <File Include="UnSendGoodsList.aspx">
-      <publishTime>05/12/2016 18:25:31</publishTime>
+      <publishTime>05/20/2016 14:21:34</publishTime>
     </File>
     <File Include="UserList.aspx">
       <publishTime>11/13/2015 15:24:34</publishTime>

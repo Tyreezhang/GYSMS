@@ -14,6 +14,7 @@ namespace KyGYS
         protected void Page_Load(object sender, EventArgs e)
         {
             base.Page_Load(sender, e);
+            txtUserName.Value = UserName;
         }
 
         protected void btnRef_Click(object sender, EventArgs e)

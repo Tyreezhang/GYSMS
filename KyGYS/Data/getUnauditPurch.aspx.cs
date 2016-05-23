@@ -50,11 +50,11 @@ namespace KyGYS.Data
                 {
                     whr += "  and SuppName in (select UserName from T_ERP_MapUser where SuppName = @" + (idx++).ToString() + ")";
                     objs.Add(UserName);
-                    prefixWhr = "select * from T_ERP_SuppPurch ";
+                    prefixWhr = "select * from V_ERP_SuppPurchList ";
                 }
                 else
                 {
-                    prefixWhr = "select * from T_ERP_SuppPurch ";
+                    prefixWhr = "select * from V_ERP_SuppPurchList ";
                 }
                 if (list != null && list.Count() > 0)
                 {
@@ -64,6 +64,11 @@ namespace KyGYS.Data
                         objs.Add(list[0].ToString());
                     }
                     if (!string.IsNullOrEmpty(list[1]))
+                    {
+                        whr += "  and PurchNo in (select PurchNo from T_ERP_SuppPurchitem where ReceiverName = @" + (idx++).ToString() + ")";
+                        objs.Add(list[1].ToString());
+                    }
+                    if (!string.IsNullOrEmpty(list[2]))
                     {
                         if (list[1] != "0")
                         {
@@ -76,8 +81,8 @@ namespace KyGYS.Data
                 using (var db = new Database(SQLCONN.Conn))
                 {
                     whr += " order by CreateDate  desc";
-                    var pages = db.Page<UltraDbEntity.T_ERP_SuppPurch>(page, rows, prefixWhr + whr, objs.ToArray());
-                    var grd = new EasyGridData<UltraDbEntity.T_ERP_SuppPurch>();
+                    var pages = db.Page<UltraDbEntity.V_ERP_SuppPurchList>(page, rows, prefixWhr + whr, objs.ToArray());
+                    var grd = new EasyGridData<UltraDbEntity.V_ERP_SuppPurchList>();
                     grd.Init(pages);
                     string data = Newtonsoft.Json.JsonConvert.SerializeObject(grd);
                     Response.Write(data);

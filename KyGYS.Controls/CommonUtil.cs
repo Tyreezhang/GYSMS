@@ -17,6 +17,23 @@ namespace KyGYS.Controls
                 return _ConnStr;
             }
         }
+        public static string UltraServerImageStr
+        {
+            get
+            {
+                _UltraServerImageStr = string.IsNullOrEmpty(_UltraServerImageStr) ? GetImg() : _UltraServerImageStr;
+                return _UltraServerImageStr;
+            }
+        }
+
+        public static string ImageStr
+        {
+            get
+            {
+                _ImageStr = string.IsNullOrEmpty(_ImageStr) ? GetshowImg() : _ImageStr;
+                return _ImageStr;
+            }
+        }
 
         private static string GetConn()
         {
@@ -27,8 +44,29 @@ namespace KyGYS.Controls
             return vlu;
         }
 
+        private static string GetImg()
+        {
+            Ultra.Web.Core.Configuration.OptionConfig cfg = new Ultra.Web.Core.Configuration.OptionConfig(Ultra.Web.Core.Configuration.EnOptionConfigType.Web);
+            string vlu = cfg.Get<string>("UltraServerImage");
+            if (string.IsNullOrEmpty(vlu))
+                cfg.Set<string>("UltraServerImage", string.Empty);
+            return vlu;
+        }
+
+        private static string GetshowImg()
+        {
+            Ultra.Web.Core.Configuration.OptionConfig cfg = new Ultra.Web.Core.Configuration.OptionConfig(Ultra.Web.Core.Configuration.EnOptionConfigType.Web);
+            string vlu = cfg.Get<string>("Image");
+            if (string.IsNullOrEmpty(vlu))
+                cfg.Set<string>("Image", string.Empty);
+            return vlu;
+        }
+
         private static string _ConnStr = string.Empty;
 
+        private static string _UltraServerImageStr = string.Empty;
+
+        private static string _ImageStr = string.Empty;
         /// <summary>
         /// 如果名称中包含禁止的字符,则以MD5 为文件新的名称
         /// </summary>
